@@ -9,15 +9,15 @@ const product_controller = require("../controllers/productController");
 // GET catalog home page.
 router.get("/", product_controller.index);
 
-// GET request for creating a Product. NOTE This must come before routes that display Product (uses id).
+// GET request for getting one Product.
 router.get("/one-product", product_controller.get_one_product);
 // GET request for list of all Product items.
 router.get("/list-products", product_controller.list_products);
-// POST request for creating Product.
-router.post("/product", product_controller.post_product);
+// POST request for creating a Product.
+router.post("/create-product", product_controller.post_product);
 // DELETE request to delete Product.
-router.post("/product/:id/delete", product_controller.post_product_delete);
+router.post("/delete-product/:id", product_controller.post_delete_product);
 // UPDATE request to update Product.
-router.post("/product/:id/update", product_controller.post_update_product);
+router.post("/update-product/:id", product_controller.post_update_product);
 
 module.exports = router;

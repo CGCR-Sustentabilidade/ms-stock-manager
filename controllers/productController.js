@@ -6,11 +6,6 @@ exports.index = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: Site Home Page");
 });
 
-// Display detail page for a specific product.
-exports.get_one_product = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: Get ONE Product detail: ${req.params.id}`);
-});
-
 // Display detail for a specific product.
 exports.get_one_product = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id).exec();

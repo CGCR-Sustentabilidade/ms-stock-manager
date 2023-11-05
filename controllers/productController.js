@@ -11,7 +11,7 @@ exports.get_one_product = asyncHandler(async (req, res, next) => {
   res.send(`NOT IMPLEMENTED: Get ONE Product detail: ${req.params.id}`);
 });
 
-// Display detail page for a specific product.
+// Display detail for a specific product.
 exports.get_one_product = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id).exec();
 
@@ -28,8 +28,8 @@ exports.get_one_product = asyncHandler(async (req, res, next) => {
 // Display list of all products.
 exports.list_products = asyncHandler(async (req, res, next) => {
   const allProducts = await Product.find({}, "brand created_at description expiration_date name quantity status type updated_at")
-  .sort({ name: 1 })
-  .exec();
+    .sort({ name: 1 })
+    .exec();
 
   var body = ("product_list", { title: "Product List", product_list: allProducts });
   res.status(200).send(body)
@@ -47,8 +47,8 @@ exports.post_product = [
   asyncHandler(async (req, res, next) => {
 
     const errors = validationResult(req);
-    const product = new Product({ 
-      created_at:  req.body.created_at,
+    const product = new Product({
+      created_at: req.body.created_at,
       description: req.body.description,
       expiration_date: req.body.expiration_date,
       name: req.body.name,
@@ -78,8 +78,19 @@ exports.post_product = [
 
 // Handle product delete on POST.
 exports.post_delete_product = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Delete one Product POST");
+
+  const product = await Product.findById(req.params.id).exec();
+
+  if (product === null) {
+    const err = new Error("Product doesn't exists.");
+    err.status = 404;
+    return next(err);
+  }
+
+  await Product.findByIdAndRemove(req.body._id);
+  res.status(204).send(body)
 });
+
 // Display product update form on POST.
 exports.post_update_product = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: Update one Product POST");

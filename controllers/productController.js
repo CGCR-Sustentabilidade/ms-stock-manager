@@ -11,7 +11,13 @@ exports.get_one_product = asyncHandler(async (req, res, next) => {
 });
 // Display list of all products.
 exports.list_products = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Get Product list");
+  // res.send("NOT IMPLEMENTED: Get Product list");
+
+  const allProducts = await Product.find({}, "brand created_at description expiration_date quantity status title type updated_at")
+  .sort({ title: 1 })
+  .exec();
+
+  res.send("product_list", { title: "Product List", product_list: allProducts });
 });
 // Handle product create on POST.
 exports.post_product = asyncHandler(async (req, res, next) => {

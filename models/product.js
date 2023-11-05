@@ -7,16 +7,16 @@ var ProductSchema = new Schema({
     created_at: { type: Date },
     description: { type: String, required: true },
     expiration_date: {type: Date, required: true},
+    name: { type: String, required: true },
     quantity: { type: Number, required: false, default: 0 },
     status: { type: String, required: true, enum: ["Disponível", "Indisponível"], default: "Bloqueado" },
-    title: { type: String, required: true },
     type: { type: String, required: true, enum: ["Tipo 1", "Tipo 2", "Tipo 3"], default: "Tipo 3" },
     updated_at: { type: Date },
 });
 
-// Virtual for product brand and title
-ProductSchema.virtual("brand_title").get(function () {
-    return this.brand + " " + this.title;
+// Virtual for product brand and name
+ProductSchema.virtual("brand_name").get(function () {
+    return this.brand + " " + this.name;
 });
 
 // // Virtual for user's URL

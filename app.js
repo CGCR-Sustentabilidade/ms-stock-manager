@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var dotenv = require('dotenv').config({path: __dirname + '/.env'})
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -11,9 +12,9 @@ const catalogRouter = require("./routes/catalog"); //Import routes for "catalog"
 
 var app = express();
 
-//Set up mongoose connection
+//Set up mongoose connection using .env variable
 var mongoose = require("mongoose");
-var mongoDB = "mongodb+srv://usuario-root:UFLrKORyWl3SepEN@cluster-inicial.6i0l2hs.mongodb.net/";
+var mongoDB = process.env.MONGO_DB_STRING_CONNECTION;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));

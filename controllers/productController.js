@@ -91,7 +91,53 @@ exports.post_delete_product = asyncHandler(async (req, res, next) => {
   res.status(204).send(body)
 });
 
-// Display product update form on POST.
-exports.post_update_product = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Update one Product POST");
-});
+// Handle product update on POST.
+exports.post_update_product = [
+  (req, res, next) => {
+    if (!(req.body.product instanceof Array)) {
+      if (typeof req.body.product === "undefined") {
+        req.body.product = [];
+      } else {
+        req.body.product = new Array(req.body.product);
+      }
+    }
+    next();
+  },
+
+  // Validate and sanitize fields.
+  body("name", "Name must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a Product object with escaped/trimmed data and old id.
+    const product = new Product({
+      created_at: req.body.created_at,
+      description: req.body.description,
+      expiration_date: req.body.expiration_date,
+      name: req.body.name,
+      quantity: req.body.quantity,
+      status: req.body.status,
+      type: req.body.type,
+      updated_at: req.body.updated_at,
+      _id: req.params.id // This is required, or a new ID will be assigned!
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages.
+      const err = new Error("Invalid Product fields to update!");
+      err.status = 400;
+      return next(err);
+    } else {
+      // Data from form is valid. Update the item.
+      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, product, {});
+      
+      var body = ({ title: "Product", updatedProduct: updatedProduct });
+      res.status(201).send(body)
+    }
+  }),
+];

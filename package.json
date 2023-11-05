@@ -1,5 +1,5 @@
 {
-  "name": "backend-cgcr",
+  "name": "ms-stock-manager",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,8 +11,10 @@
     "async": "^3.2.4",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
     "express": "~4.16.1",
     "express-async-handler": "^1.2.0",
+    "express-validator": "^7.0.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "mongodb": "^6.2.0",

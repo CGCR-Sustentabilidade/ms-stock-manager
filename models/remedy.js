@@ -1,40 +1,28 @@
-// ESTE É UM EXEMPLO DE MODELO, ALTERE AS INFORMAÇÕES CONFORME NECESSÁRIO
 var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+var RemedySchema = new Schema({
+    brand: { type: String, required: false },
     created_at: { type: Date },
-    job_title: {
-        type: String,
-        required: true,
-        enum: ["Ativo", "Inativo"],
-        default: "Desativado",
-    },
-    first_name: { type: String, required: true, max: 100, min: 2 },
-    last_name: { type: String, required: true, max: 100, min: 2 },
-    status: {
-        type: String,
-        required: true,
-        enum: ["Ativo", "Inativo"],
-        default: "Desativado",
-    },
-    role: {
-        type: Number, 
-        required: true,
-        default: 1,
-    }
+    description: { type: String, required: true },
+    expiration_date: {type: Date, required: true},
+    name: { type: String, required: true },
+    quantity: { type: Number, required: false, default: 0 },
+    status: { type: String, required: true, enum: ["Disponível", "Indisponível"], default: "Bloqueado" },
+    type: { type: String, required: true, enum: ["Tipo 1", "Tipo 2", "Tipo 3"], default: "Tipo 3" },
+    updated_at: { type: Date },
 });
 
-// Virtual for user's full name
-UserSchema.virtual("name").get(function () {
-    return this.first_name + " " + this.last_name;
+// Virtual for remedy brand and name
+RemedySchema.virtual("brand_name").get(function () {
+    return this.brand + " " + this.name;
 });
 
-// Virtual for user's URL
-UserSchema.virtual("url").get(function () {
-    return "/system/user/" + this._id;
-});
+// // Virtual for user's URL
+// UserSchema.virtual("url").get(function () {
+//     return "/system/user/" + this._id;
+// });
 
 //Export model
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Remedy", RemedySchema);

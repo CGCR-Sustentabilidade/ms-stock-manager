@@ -113,7 +113,7 @@ exports.post_delete_product = asyncHandler(async (req, res, next) => {
     }
 
     await Product.findByIdAndRemove(product._id);
-    res.status(204)
+    return res.status(200).json({})
   } catch (error) {
     console.log('error: ', error)
     const err = new Error("Error when trying to delete a product.");

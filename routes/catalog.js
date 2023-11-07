@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Require controller modules.
 const product_controller = require("../controllers/productController");
+const elderly_controller = require("../controllers/elderlyController");
 const remedy_controller = require("../controllers/remedyController");
 
 /// PRODUCT ROUTES ///

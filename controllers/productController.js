@@ -17,8 +17,7 @@ exports.get_one_product = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  var teste = ({ title: "Product", product: product });
-  return res.status(200).send(teste)
+  return res.status(200).json(product)
 });
 
 // Display list of all products.
@@ -27,8 +26,7 @@ exports.list_products = asyncHandler(async (req, res, next) => {
     .sort({ name: 1 })
     .exec();
 
-  var body = ("product_list", { title: "Product List", product_list: allProducts });
-  return res.status(200).send(body)
+  return res.status(200).json(allProducts)
 });
 
 // Handle product create on POST.

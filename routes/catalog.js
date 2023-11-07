@@ -10,7 +10,7 @@ const product_controller = require("../controllers/productController");
 router.get("/", product_controller.index);
 
 // GET request for getting one Product.
-router.get("/one-product", product_controller.get_one_product);
+router.get("/one-product/:id", product_controller.get_one_product);
 // GET request for list of all Product items.
 router.get("/list-products", product_controller.list_products);
 // POST request for creating a Product.

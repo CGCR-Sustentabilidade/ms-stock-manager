@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var ProductSchema = new Schema({
-    brand: { type: String, required: true },
+    brand: { type: String, required: false },
     created_at: { type: Date },
     description: { type: String, required: true },
     expiration_date: {type: Date, required: true},

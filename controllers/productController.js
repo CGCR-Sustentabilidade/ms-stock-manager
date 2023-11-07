@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const { DateTime } = require("luxon");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: Site Home Page");
@@ -16,8 +17,8 @@ exports.get_one_product = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  var body = ({ title: "Product", product: product });
-  res.status(200).send(body)
+  var teste = ({ title: "Product", product: product });
+  return res.status(200).send(teste)
 });
 
 // Display list of all products.
@@ -27,7 +28,7 @@ exports.list_products = asyncHandler(async (req, res, next) => {
     .exec();
 
   var body = ("product_list", { title: "Product List", product_list: allProducts });
-  res.status(200).send(body)
+  return res.status(200).send(body)
 });
 
 // Handle product create on POST.
@@ -43,29 +44,40 @@ exports.post_product = [
 
     const errors = validationResult(req);
     const product = new Product({
-      created_at: req.body.created_at,
-      description: req.body.description,
-      expiration_date: req.body.expiration_date,
-      name: req.body.name,
-      quantity: req.body.quantity,
-      status: req.body.status,
-      type: req.body.type,
-      updated_at: req.body.updated_at
+      brand: req.body.product.brand,
+      created_at: req.body.product.created_at,
+      description: req.body.product.description,
+      expiration_date: req.body.product.expiration_date,
+      name: req.body.product.name,
+      quantity: req.body.product.quantity,
+      status: req.body.product.status,
+      type: req.body.product.type,
+      updated_at: req.body.product.updated_at
     });
 
-    if (!errors.isEmpty()) {
+    // Handle empty date values
+    if (product != null) {
+      if (!product.created_at)
+        product.created_at = DateTime.now()
+      if (!product.expiration_date)
+        product.expiration_date = DateTime.now()
+      if (!product.updated_at)
+        product.updated_at = DateTime.now()
+    }
+
+    if (errors.isEmpty()) {
       const err = new Error("Invalid Product fields!");
       err.status = 400;
       return next(err);
     } else {
-      const productExists = await Product.findOne({ name: req.body.name }).exec();
+      const productExists = await Product.findOne({ name: req.body.product.name }).exec();
       if (productExists) {
         const err = new Error("Product already exists!");
         err.status = 400;
         return next(err);
       } else {
         await product.save();
-        res.status(200).send(body)
+        res.status(200).json(product)
       }
     }
   }),
@@ -82,7 +94,7 @@ exports.post_delete_product = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  await Product.findByIdAndRemove(req.body._id);
+  await Product.findByIdAndRemove(req.body.product._id);
   res.status(204).send(body)
 });
 
@@ -111,15 +123,16 @@ exports.post_update_product = [
 
     // Create a Product object with escaped/trimmed data and old id.
     const product = new Product({
-      created_at: req.body.created_at,
-      description: req.body.description,
-      expiration_date: req.body.expiration_date,
-      name: req.body.name,
-      quantity: req.body.quantity,
-      status: req.body.status,
-      type: req.body.type,
-      updated_at: req.body.updated_at,
-      _id: req.params.id // This is required, or a new ID will be assigned!
+      brand: req.body.product.brand,
+      created_at: req.body.product.created_at,
+      description: req.body.product.description,
+      expiration_date: req.body.product.expiration_date,
+      name: req.body.product.name,
+      quantity: req.body.product.quantity,
+      status: req.body.product.status,
+      type: req.body.product.type,
+      updated_at: req.body.product.updated_at,
+      _id: req.params.product.id // This is required, or a new ID will be assigned!
     });
 
     if (!errors.isEmpty()) {
@@ -130,7 +143,7 @@ exports.post_update_product = [
     } else {
       // Data from form is valid. Update the item.
       const updatedProduct = await Product.findByIdAndUpdate(req.params.id, product, {});
-      
+
       var body = ({ title: "Product", updatedProduct: updatedProduct });
       res.status(201).send(body)
     }

@@ -92,8 +92,8 @@ exports.post_delete_product = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  await Product.findByIdAndRemove(req.body.product._id);
-  res.status(204).send(body)
+  await Product.findByIdAndRemove(product._id);
+  res.status(204)
 });
 
 // Handle product update on POST.
@@ -121,29 +121,27 @@ exports.post_update_product = [
 
     // Create a Product object with escaped/trimmed data and old id.
     const product = new Product({
-      brand: req.body.product.brand,
-      created_at: req.body.product.created_at,
-      description: req.body.product.description,
-      expiration_date: req.body.product.expiration_date,
-      name: req.body.product.name,
-      quantity: req.body.product.quantity,
-      status: req.body.product.status,
-      type: req.body.product.type,
-      updated_at: req.body.product.updated_at,
-      _id: req.params.product.id // This is required, or a new ID will be assigned!
+      brand: req.body.product[0].brand,
+      created_at: req.body.product[0].created_at,
+      description: req.body.product[0].description,
+      expiration_date: req.body.product[0].expiration_date,
+      name: req.body.product[0].name,
+      quantity: req.body.product[0].quantity,
+      status: req.body.product[0].status,
+      type: req.body.product[0].type,
+      updated_at: DateTime.now(), // new updated_at date
+      _id: req.params.id // This is required, or a new ID will be assigned!
     });
 
-    if (!errors.isEmpty()) {
+    if (errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/error messages.
       const err = new Error("Invalid Product fields to update!");
       err.status = 400;
       return next(err);
     } else {
       // Data from form is valid. Update the item.
-      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, product, {});
-
-      var body = ({ title: "Product", updatedProduct: updatedProduct });
-      res.status(201).send(body)
+      const current_product = await Product.findByIdAndUpdate(req.params.id, product, {});
+      res.status(201).json(product)
     }
   }),
 ];

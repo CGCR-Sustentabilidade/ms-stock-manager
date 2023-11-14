@@ -30,8 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/employees', employeesRouter);
 app.use("/catalog", catalogRouter); // Add catalog routes to middleware chain.
 
 

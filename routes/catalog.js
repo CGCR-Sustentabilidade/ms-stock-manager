@@ -38,7 +38,7 @@ router.post("/delete-remedy/:id", remedy_controller.post_delete_remedy);
 // UPDATE request to update Remedy.
 router.post("/update-remedy/:id", remedy_controller.post_update_remedy);
 
-/// REMEDY ROUTES ///
+/// ELDERLY ROUTES ///
 
 // GET catalog home page.
 router.get("/", elderly_controller.index);
@@ -46,7 +46,7 @@ router.get("/", elderly_controller.index);
 // GET request for getting one elderly.
 router.get("/one-elderly/:id", elderly_controller.get_one_elderly);
 // GET request for list of all elderly items.
-router.get("/list-elderlys", elderly_controller.list_elderlys);
+router.get("/list-elderlies", elderly_controller.list_elderlies);
 // POST request for creating a elderly.
 router.post("/create-elderly", elderly_controller.post_elderly);
 // DELETE request to delete elderly.

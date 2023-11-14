@@ -149,7 +149,6 @@ exports.post_update_product = [
       // Create a Product object with escaped/trimmed data and old id.
       const product = new Product({
         brand: req.body.product[0].brand,
-        created_at: req.body.product[0].created_at,
         description: req.body.product[0].description,
         expiration_date: req.body.product[0].expiration_date,
         name: req.body.product[0].name,

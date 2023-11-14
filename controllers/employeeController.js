@@ -144,7 +144,6 @@ exports.post_update_employee = [
 
       // Create a Employee object with escaped/trimmed data and old id.
       const employee = new Employee({
-        created_at: req.body.employee[0].created_at,
         description: req.body.employee[0].description,
         name: req.body.employee[0].name,
         job_title: req.body.employee[0].job_title,

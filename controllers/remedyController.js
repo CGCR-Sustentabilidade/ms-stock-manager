@@ -148,7 +148,6 @@ exports.post_update_remedy = [
       // Create a Remedy object with escaped/trimmed data and old id.
       const remedy = new Remedy({
         brand: req.body.remedy[0].brand,
-        created_at: req.body.remedy[0].created_at,
         description: req.body.remedy[0].description,
         expiration_date: req.body.remedy[0].expiration_date,
         name: req.body.remedy[0].name,

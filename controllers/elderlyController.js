@@ -143,7 +143,6 @@ exports.post_update_elderly = [
 
       // Create a Elderly object with escaped/trimmed data and old id.
       const elderly = new Elderly({
-        created_at: req.body.elderly[0].created_at,
         description: req.body.elderly[0].description,
         name: req.body.elderly[0].name,
         status: req.body.elderly[0].status,

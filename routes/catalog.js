@@ -30,7 +30,7 @@ router.get("/", remedy_controller.index);
 // GET request for getting one Remedy.
 router.get("/one-remedy/:id", remedy_controller.get_one_remedy);
 // GET request for list of all Remedy items.
-router.get("/list-remedys", remedy_controller.list_remedys);
+router.get("/list-remedies", remedy_controller.list_remedies);
 // POST request for creating a Remedy.
 router.post("/create-remedy", remedy_controller.post_remedy);
 // DELETE request to delete Remedy.

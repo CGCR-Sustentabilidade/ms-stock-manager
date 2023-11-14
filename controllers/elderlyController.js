@@ -27,17 +27,17 @@ exports.get_one_elderly = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Display list of all elderlys.
-exports.list_elderlys = asyncHandler(async (req, res, next) => {
+// Display list of all elderlies.
+exports.list_elderlies = asyncHandler(async (req, res, next) => {
   try {
-    const allElderlys = await Elderly.find({}, "brand created_at description expiration_date name quantity status type updated_at")
+    const allElderlies = await Elderly.find({}, "created_at description name status type updated_at")
       .sort({ name: 1 })
       .exec();
 
-    return res.status(200).json(allElderlys)
+    return res.status(200).json(allElderlies)
   } catch (error) {
     console.log('error: ', error)
-    const err = new Error("Error when trying to get all elderlys.");
+    const err = new Error("Error when trying to get all elderlies.");
     err.status = 400;
     return next(err);
   }
@@ -56,12 +56,9 @@ exports.post_elderly = [
     try {
       const errors = validationResult(req);
       const elderly = new Elderly({
-        brand: req.body.elderly.brand,
         created_at: req.body.elderly.created_at,
         description: req.body.elderly.description,
-        expiration_date: req.body.elderly.expiration_date,
         name: req.body.elderly.name,
-        quantity: req.body.elderly.quantity,
         status: req.body.elderly.status,
         type: req.body.elderly.type,
         updated_at: req.body.elderly.updated_at
@@ -71,8 +68,6 @@ exports.post_elderly = [
       if (elderly != null) {
         if (!elderly.created_at)
           elderly.created_at = DateTime.now()
-        if (!elderly.expiration_date)
-          elderly.expiration_date = DateTime.now()
         if (!elderly.updated_at)
           elderly.updated_at = DateTime.now()
       }
@@ -148,12 +143,8 @@ exports.post_update_elderly = [
 
       // Create a Elderly object with escaped/trimmed data and old id.
       const elderly = new Elderly({
-        brand: req.body.elderly[0].brand,
-        created_at: req.body.elderly[0].created_at,
         description: req.body.elderly[0].description,
-        expiration_date: req.body.elderly[0].expiration_date,
         name: req.body.elderly[0].name,
-        quantity: req.body.elderly[0].quantity,
         status: req.body.elderly[0].status,
         type: req.body.elderly[0].type,
         updated_at: DateTime.now(), // new updated_at date

@@ -30,7 +30,7 @@ exports.get_one_employee = asyncHandler(async (req, res, next) => {
 // Display list of all employees.
 exports.list_employees = asyncHandler(async (req, res, next) => {
   try {
-    const allEmployees = await Employee.find({}, "created_at description name status type updated_at")
+    const allEmployees = await Employee.find({}, "created_at description name job_title status type updated_at")
       .sort({ name: 1 })
       .exec();
 
@@ -59,6 +59,7 @@ exports.post_employee = [
         created_at: req.body.employee.created_at,
         description: req.body.employee.description,
         name: req.body.employee.name,
+        job_title: req.body.employee.job_title,
         status: req.body.employee.status,
         type: req.body.employee.type,
         updated_at: req.body.employee.updated_at
@@ -146,6 +147,7 @@ exports.post_update_employee = [
         created_at: req.body.employee[0].created_at,
         description: req.body.employee[0].description,
         name: req.body.employee[0].name,
+        job_title: req.body.employee[0].job_title,
         status: req.body.employee[0].status,
         type: req.body.employee[0].type,
         updated_at: DateTime.now(), // new updated_at date

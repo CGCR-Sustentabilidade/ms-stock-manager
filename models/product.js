@@ -5,12 +5,12 @@ var Schema = mongoose.Schema;
 var ProductSchema = new Schema({
     brand: { type: String, required: false },
     created_at: { type: Date },
-    description: { type: String, required: true },
-    expiration_date: {type: Date, required: true},
+    description: { type: String, required: false },
+    expiration_date: {type: Date, required: false},
     name: { type: String, required: true },
     quantity: { type: Number, required: false, default: 0 },
-    status: { type: String, required: true, enum: ["Disponível", "Indisponível"], default: "Bloqueado" },
-    type: { type: String, required: true, enum: ["Tipo 1", "Tipo 2", "Tipo 3"], default: "Tipo 3" },
+    status: { type: String, required: false, enum: ["Disponível", "Indisponível"], default: "Bloqueado" },
+    type: { type: String, required: false, enum: ["Tipo 1", "Tipo 2", "Tipo 3"], default: "Tipo 3" },
     updated_at: { type: Date },
 });
 
